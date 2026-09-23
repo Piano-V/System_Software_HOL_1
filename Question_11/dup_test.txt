@@ -1,0 +1,2 @@
+Written using original FD (fd1)
+Written using duplicated FD (fd2)

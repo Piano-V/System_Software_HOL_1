@@ -1,0 +1,2 @@
+Line 1 written via fd1
+Line 2 written via target_fd (dup2)

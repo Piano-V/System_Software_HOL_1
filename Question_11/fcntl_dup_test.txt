@@ -1,0 +1,2 @@
+Appended via original descriptor
+Appended via fcntl duplicated descriptor
