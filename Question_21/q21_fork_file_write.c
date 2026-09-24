@@ -15,7 +15,7 @@ int main() {
         return 1;
     }
 
-    printf("File '%s' opened with FD %d prior to fork().\n", filename, fd);
+    printf("File '%s' opened with FD %d before fork()\n", filename, fd);
 
     pid_t pid = fork();
 
@@ -25,8 +25,8 @@ int main() {
         return 1;
     } else if (pid == 0) {
         // Child process
-        const char child_msg[] = "[CHILD]  Line 1 written by child process\n"
-                                "[CHILD]  Line 2 written by child process\n";
+        const char child_msg[] = "Line 1 written by child process\n"
+                                "Line 2 written by child process\n";
         
         write(fd, child_msg, strlen(child_msg));
         printf("Child (PID %d) finished writing.\n", getpid());
@@ -40,9 +40,8 @@ int main() {
                                   "[PARENT] Line 2 written by parent process\n";
 
         write(fd, parent_msg, strlen(parent_msg));
-        printf("Parent (PID %d) finished writing.\n", getpid());
+        printf("Parent (PID %d) finished writing\n", getpid());
 
-        // Wait for child to exit so output is complete before inspect
         wait(NULL);
         close(fd);
     }

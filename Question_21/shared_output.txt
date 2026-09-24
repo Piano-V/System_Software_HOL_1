@@ -1,4 +1,4 @@
 [PARENT] Line 1 written by parent process
 [PARENT] Line 2 written by parent process
-[CHILD]  Line 1 written by child process
-[CHILD]  Line 2 written by child process
+Line 1 written by child process
+Line 2 written by child process

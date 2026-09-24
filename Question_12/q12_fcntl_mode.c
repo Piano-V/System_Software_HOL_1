@@ -3,7 +3,7 @@
 #include <fcntl.h>
 int main () {
 
-	int fd = open("test.txt", O_RDONLY);
+	int fd = open("test.txt", O_WRONLY);
 	if (fd == -1 ) {
 		perror("Open: ");
 		return 1;

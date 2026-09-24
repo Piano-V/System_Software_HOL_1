@@ -20,13 +20,11 @@ int main() {
         } else if (pids[i] == 0) {
             // Inside child process
             int child_num = i + 1;
-            printf("[CHILD %d] PID: %d | Working for %d seconds...\n", 
-                   child_num, getpid(), sleep_times[i]);
+            printf("[CHILD %d] PID: %d | Working for %d seconds\n",  child_num, getpid(), sleep_times[i]);
             
             sleep(sleep_times[i]);
 
-            printf("[CHILD %d] PID: %d | Finished work. Exiting with code %d.\n", 
-                   child_num, getpid(), child_num * 10);
+            printf("[CHILD %d] PID: %d | Finished work. Exiting with code %d\n", child_num, getpid(), child_num * 10);
             exit(child_num * 10);
         }
     }
@@ -35,7 +33,7 @@ int main() {
     pid_t target_pid = pids[1];
     int status;
 
-    printf("[PARENT] Waiting for Child 2 (PID %d) using waitpid()...\n", target_pid);
+    printf("[PARENT] Waiting for Child 2 (PID %d) using waitpid()\n", target_pid);
 
     // Block specifically for Child 2
     pid_t reaped_pid = waitpid(target_pid, &status, 0);
@@ -46,8 +44,7 @@ int main() {
     }
 
     if (WIFEXITED(status)) {
-        printf("\n[PARENT] Successfully reaped TARGET Child (PID %d) with exit status: %d\n\n", 
-               reaped_pid, WEXITSTATUS(status));
+        printf("\n[PARENT] Successfully reaped TARGET Child (PID %d) with exit status: %d\n\n", reaped_pid, WEXITSTATUS(status));
     }
 
     // Clean up remaining children to avoid leaving zombies

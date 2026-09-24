@@ -64,25 +64,25 @@ int main(int argc, char *argv[]) {
     struct record rec;
     read(fd, &rec, sizeof(struct record));
 
-    printf("[PID %d] Current data: [ID: %d | Name: %s | Counter: %d]\n",
-           getpid(), rec.id, rec.name, rec.counter);
+    printf("[PID %d] Current data: ID: %d | Counter: %d \n",
+           getpid(), rec.id, rec.counter);
 
     if (lock_choice == 'w') {
         rec.counter += 10;
-        printf("[PID %d] Updating counter to %d...\n", getpid(), rec.counter);
+        printf("[PID %d] Updating counter to: %d\n", getpid(), rec.counter);
         
         // Write the updated record back to its slot
         lseek(fd, offset, SEEK_SET);
         write(fd, &rec, sizeof(struct record));
     }
 
-    printf("[PID %d] Holding lock for 7 seconds to demonstrate locking...\n", getpid());
+    printf("[PID %d] Holding lock for 7 seconds\n", getpid());
     sleep(7);
 
     // Release the record lock
     lock.l_type = F_UNLCK;
     fcntl(fd, F_SETLK, &lock);
-    printf("[PID %d] Lock RELEASED on Record %d. Done.\n\n", getpid(), rec_no);
+    printf("[PID %d] Lock RELEASED on Record %d. Finishd it \n\n", getpid(), rec_no);
 
     close(fd);
     return 0;
