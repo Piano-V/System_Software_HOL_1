@@ -53,6 +53,5 @@ int main() {
         printf("[PARENT] Reaped remaining child PID %d\n", reaped_pid);
     }
 
-    printf("[PARENT] All children handled. Exiting.\n");
     return 0;
 }
