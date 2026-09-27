@@ -41,8 +41,8 @@ int main() {
     write(fd, &data, sizeof(data));
 
     printf("Booked ticket: %d\n", booked);
-    printf("Holding lock for 5 seconds...\n");
-    sleep(5);
+    printf("Holding lock for 10 seconds...\n");
+    sleep(10);
 
     lock.l_type = F_UNLCK;
     fcntl(fd, F_SETLK, &lock);

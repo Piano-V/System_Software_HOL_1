@@ -25,7 +25,7 @@ int main() {
         return 1;
     }
 
-    printf("Ticket database initialized in '%s' with starting Ticket No: %d\n", db_file, data.ticket_no);
+    printf("Ticket database created with ticket number: %d\n", data.ticket_no);
 
     close(fd);
     return 0;
