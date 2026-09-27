@@ -21,7 +21,6 @@ int main() {
         printf("My PID (getpid()):        %d\n", getpid());
         printf("Created Child PID (fork): %d\n\n", pid);
 
-        // Wait for the child process to finish to avoid leaving a zombie
         wait(NULL);
     }
 

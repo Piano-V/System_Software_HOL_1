@@ -6,9 +6,9 @@
 
 int main() {
     pid_t pids[3];
-    int sleep_times[3] = {2, 6, 4};
+    int sleep_times[3] = {5, 7, 4};
 
-    printf("[PARENT] PID: %d. Spawning 3 child processes\n\n", getpid());
+    printf("[PARENT] PID: %d. Creating 3 child processes\n\n", getpid());
 
     for (int i = 0; i < 3; i++) {
         pids[i] = fork();
@@ -34,6 +34,7 @@ int main() {
 
     // Clean up remaining children to avoid zombies
     while (wait(NULL) > 0);
+    printf("Parent ends after reaping all children\n");
 
     return 0;
 }
