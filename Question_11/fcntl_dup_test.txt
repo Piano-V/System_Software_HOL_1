@@ -1,2 +1,2 @@
-Appended via original descriptor
-Appended via fcntl duplicated descriptor
+Appended through original descriptor
+Appended through fcntl duplicated descriptor

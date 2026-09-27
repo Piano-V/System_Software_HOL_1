@@ -12,34 +12,25 @@ int main() {
         return 1;
     }
 
-    // Write first 10 bytes as 'AAAAAAAAAA'
     char buf1[10] = "AAAAAAAAAA";
     if (write(fd, buf1, 10) != 10) {
         perror("Error writing first 10 bytes");
         close(fd);
         return 1;
     }
-    printf("Wrote first 10 bytes ('A's). Current position: 10\n");
+    printf("Wrote first 10 bytes. Current position: 10\n");
 
-    // Move file pointer forward by 10 bytes from current position
-    off_t new_offset = lseek(fd, 10, SEEK_CUR);
-    if (new_offset == (off_t)-1) {
-        perror("Error seeking file offset");
-        close(fd);
-        return 1;
-    }
+    // move file pointer forward by 10 bytes from current position
+    int new_offset = lseek(fd, 10, SEEK_CUR);
+    printf("Return value of lseek(): %d \n", new_offset);
 
-    // Check and print the return value of lseek
-    printf("Return value of lseek(): %ld (offset from beginning of file)\n", (long)new_offset);
-
-    // Write second 10 bytes as 'BBBBBBBBBB'
     char buf2[10] = "BBBBBBBBBB";
     if (write(fd, buf2, 10) != 10) {
         perror("Error writing second 10 bytes");
         close(fd);
         return 1;
     }
-    printf("Wrote second 10 bytes ('B's). Total file size should now be 30 bytes.\n");
+    printf("Wrote second 10 bytes of B \n");
 
     close(fd);
     return 0;

@@ -6,7 +6,7 @@
 int main() {
     pid_t pid = getpid();
     printf("Process running with PID: %d\n", pid);
-    printf("Inspect open FDs using: ls -l /proc/%d/fd\n", pid);
+    printf("Inspet open FDs using: ls -l /proc/%d/fd\n", pid);
     fflush(stdout);
 
     int file_count = 0;

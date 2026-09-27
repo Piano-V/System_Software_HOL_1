@@ -9,7 +9,7 @@ int main() {
     char c;
     int i = 0;
 
-    // Read byte into a buffer until a newline forms a line
+    // reading byte into a buffer until a newline
     while (read(fd, &c, 1) > 0) {
         line[i++] = c;
         if (c == '\n') {
@@ -18,7 +18,6 @@ int main() {
         }
     }
 
-    // write any leftover text at EOF that didnt end with '\n'
     if (i > 0) {
         write(1, line, i);
     }
