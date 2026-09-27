@@ -7,24 +7,14 @@ int main() {
     pid_t pid = fork();
 
     if (pid == 0) {
-        // Child Process
-        printf("[CHILD]  PID: %d -> Exiting\n", getpid());
+        printf("Child PID: %d exiting...\n", getpid());
         exit(0);
     } else {
-        // Parent Process
-        printf("[PARENT] PID: %d | Child Created PID: %d\n", getpid(), pid);
-        printf("[PARENT] Sleeping for 25 seconds \n");
-        printf("Check\n\n");
-
-        // Sleeping keeps the parent alive without reaping the child
+        printf("Parent PID: %d, Child PID: %d\n", getpid(), pid);
+        printf("Parent sleeping for 25 seconds...\n");
         sleep(25);
-
-        printf("[PARENT] Woke up -> Exiting now. Child will be cleaned up by PID 1\n");
+        printf("Parent exiting.\n");
     }
 
     return 0;
 }
-/*
-In other terminal:
-ps -o pid,ppid,stat,comm -p <pid>
-*/

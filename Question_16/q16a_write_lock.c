@@ -4,40 +4,32 @@
 #include <unistd.h>
 
 int main() {
-    const char *filename = "locked_file.txt";
-
-    // Open file in Read Write Mode
-    int fd = open(filename, O_RDWR | O_CREAT, 0644);
+    int fd = open("locked_file.txt", O_RDWR | O_CREAT, 0644);
     if (fd == -1) {
-        perror("Error opening file");
+        perror("open failed");
         return 1;
     }
 
     struct flock lock;
-    lock.l_type = F_WRLCK;    // Exclusive write lock
-    lock.l_whence = SEEK_SET; // From start of file
-    lock.l_start = 0;         // Starting at byte 0
-    lock.l_len = 0;           // 0 = Lock the entire file (all current and future bytes)
-    lock.l_pid = getpid();
+    lock.l_type = F_WRLCK;
+    lock.l_whence = SEEK_SET;
+    lock.l_start = 0;
+    lock.l_len = 0;
 
-    printf("[Process %d] Requesting WRITE lock on '%s' \n", getpid(), filename);
-
-    // F_SETLKW waits until the lock is acquired
+    printf("Requesting write lock...\n");
     if (fcntl(fd, F_SETLKW, &lock) == -1) {
-        perror("fcntl fail");
+        perror("fcntl write lock failed");
         close(fd);
         return 1;
     }
 
-    printf("[Process %d] WRITE lock ACQUIRED!\n", getpid());
-    printf("Writing to file and holding lock for 15 seconds.\n");
-
+    printf("Write lock acquired. Holding lock for 15 seconds...\n");
     dprintf(fd, "Write lock held by PID %d\n", getpid());
     sleep(15);
 
     lock.l_type = F_UNLCK;
     fcntl(fd, F_SETLK, &lock);
-    printf("[Process %d] Lock RELEASED. Exiting.\n", getpid());
+    printf("Lock released.\n");
 
     close(fd);
     return 0;

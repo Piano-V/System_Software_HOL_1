@@ -3,12 +3,8 @@
 #include <stdlib.h>
 
 int main() {
-    printf("[PID %d] Executing 'ls -Rl' using execl()...\n\n", getpid());
-    fflush(stdout);
-
-    // execl: Takes path to binary and list of arguments terminated by NULL
+    printf("Executing ls -Rl using execl...\n");
     execl("/bin/ls", "ls", "-Rl", (char *)NULL);
-
     perror("execl failed");
     return 1;
 }

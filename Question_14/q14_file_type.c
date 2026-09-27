@@ -6,7 +6,7 @@
 void identify_file_type(const char *path) {
     struct stat file_stat;
 
-    // Use lstat() so we can inspect symbolic links without following them
+    // Use lstat() so I can inspect symbolic links without following them
     if (lstat(path, &file_stat) == -1) {
         perror("lstat failed");
         return;
@@ -47,13 +47,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
-/*
-pianov@Piano:~/hands-on/14$ ./q14_file_type sample_reg.txt sample_dir sample_link sample_fifo /dev/null /dev/sda
-Path: sample_reg.txt            -> File Type: Regular File (-)
-Path: sample_dir                -> File Type: Directory (d)
-Path: sample_link               -> File Type: Symbolic Link (l)
-Path: sample_fifo               -> File Type: FIFO / Named Pipe (p)
-Path: /dev/null                 -> File Type: Character Device (c)
-Path: /dev/sda                  -> File Type: Block Device (b)
-*/

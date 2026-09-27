@@ -11,7 +11,7 @@ struct record {
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
-        fprintf(stderr, "Usage: %s <record_no: 1-3> <lock_type: r|w>\n", argv[0]);
+        printf("Usage: %s <record_no: 1-3> <lock_type: r|w>\n", argv[0]);
         return 1;
     }
 
@@ -19,70 +19,53 @@ int main(int argc, char *argv[]) {
     char lock_choice = argv[2][0];
 
     if (rec_no < 1 || rec_no > 3) {
-        fprintf(stderr, "Error: Record number must be 1, 2, or 3.\n");
+        printf("Record number must be 1, 2, or 3.\n");
         return 1;
     }
 
-    if (lock_choice != 'r' && lock_choice != 'w') {
-        fprintf(stderr, "Error: Lock type must be 'r' (read) or 'w' (write).\n");
-        return 1;
-    }
-
-    const char *filename = "records.db";
-    int fd = open(filename, O_RDWR);
+    int fd = open("records.db", O_RDWR);
     if (fd == -1) {
-        perror("Error opening records file (run ./q18_init_records first)");
+        perror("open failed");
         return 1;
     }
 
     off_t offset = (rec_no - 1) * sizeof(struct record);
 
-    // Setup flock structure for the specific record
     struct flock lock;
     lock.l_type   = (lock_choice == 'w') ? F_WRLCK : F_RDLCK;
     lock.l_whence = SEEK_SET;
     lock.l_start  = offset;
-    lock.l_len    = sizeof(struct record); // Lock only this records byte length
-    lock.l_pid    = getpid();
+    lock.l_len    = sizeof(struct record);
 
-    printf("[PID %d] Requesting %s lock on Record %d (bytes %ld - %ld)...\n",
-           getpid(), (lock_choice == 'w') ? "WRITE" : "READ", 
-           rec_no, (long)offset, (long)(offset + sizeof(struct record) - 1));
+    printf("Requesting %s lock on Record %d...\n", (lock_choice == 'w') ? "write" : "read", rec_no);
 
-    // F_SETLKW waits until the record is free
     if (fcntl(fd, F_SETLKW, &lock) == -1) {
-        perror("fcntl locking failed");
+        perror("fcntl lock failed");
         close(fd);
         return 1;
     }
 
-    printf("[PID %d] %s lock ACQUIRED on Record %d.\n",
-           getpid(), (lock_choice == 'w') ? "WRITE" : "READ", rec_no);
+    printf("Lock acquired on Record %d\n", rec_no);
 
-    // Seek to the target record
     lseek(fd, offset, SEEK_SET);
     struct record rec;
     read(fd, &rec, sizeof(struct record));
 
-    printf("[PID %d] Current data: ID: %d | Counter: %d \n",
-           getpid(), rec.id, rec.counter);
+    printf("Current: ID=%d, Name=%s, Counter=%d\n", rec.id, rec.name, rec.counter);
 
     if (lock_choice == 'w') {
         rec.counter += 10;
-        printf("[PID %d] Updating counter to: %d\n", getpid(), rec.counter);
-        
-        // Write the updated record back to its slot
+        printf("Updated Counter to: %d\n", rec.counter);
         lseek(fd, offset, SEEK_SET);
         write(fd, &rec, sizeof(struct record));
     }
 
-    printf("[PID %d] Holding lock for 7 seconds\n", getpid());
+    printf("Holding lock for 7 seconds...\n");
     sleep(7);
 
-    // Release the record lock
     lock.l_type = F_UNLCK;
     fcntl(fd, F_SETLK, &lock);
-    printf("[PID %d] Lock RELEASED on Record %d. Finishd it \n\n", getpid(), rec_no);
+    printf("Lock released on Record %d\n", rec_no);
 
     close(fd);
     return 0;

@@ -31,19 +31,8 @@ int main() {
         return 1;
     }
 
-    printf("Initialized '%s' with 3 records (Record size: %lu bytes).\n", 
-           filename, sizeof(struct record));
+    printf("Initialized records.db with 3 records.\n");
 
     close(fd);
     return 0;
 }
-
-/*
-./q18_record_lock 1 w
-./q18_record_lock 2 w
-Locks Acquired on same file for different records
-
-./q18_record_lock 1 w
-./q18_record_lock 1 w
-Waiting to acquire locks on the record in the file
-*/
