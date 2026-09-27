@@ -14,7 +14,7 @@ int main() {
     close(1);
     close(2);
 
-    sleep(10);
+    sleep(5);
     system("echo 'Task executed at: ' $(date) >> /tmp/task.log");
 
     return 0;

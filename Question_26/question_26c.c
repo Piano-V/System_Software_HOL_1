@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 int main() {
-    char *const envp[] = { "PATH=/bin:/usr/bin", "TERM=xterm", NULL };
+    char *envp[] = { "PATH=/bin:/usr/bin", NULL };
 
     printf("Executing ls -Rl using execle...\n");
     execle("/bin/ls", "ls", "-Rl", (char *)NULL, envp);
