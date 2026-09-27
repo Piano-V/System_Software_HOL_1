@@ -16,5 +16,3 @@ int main() {
 
 //cat /proc/PID/status | head -n 15
 //cat /proc/PID/cmdline
-// ls -l /proc/12345/exe  executable path
-// ls -l /proc/12345/cwd
